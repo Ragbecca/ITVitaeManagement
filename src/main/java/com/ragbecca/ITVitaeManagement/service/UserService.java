@@ -4,7 +4,7 @@ import com.ragbecca.ITVitaeManagement.entity.User;
 import com.ragbecca.ITVitaeManagement.repository.UserRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,14 +13,15 @@ public class UserService {
     private UserRepository userRepository;
 
     @Getter
-    private final BCryptPasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
-    public UserService() {
-        this.passwordEncoder = new BCryptPasswordEncoder();
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public User save(User user) {
+    public void save(User user) {
+        user.setRole("MANAGER");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }

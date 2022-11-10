@@ -38,7 +38,7 @@ public class UserControllerTest {
     public void postUser_whenUserIsValid_receiveOk() {
         User user = createValidUser();
 
-        ResponseEntity<Object> response = testRestTemplate.postForEntity("/users", user, Object.class);
+        ResponseEntity<Object> response = testRestTemplate.postForEntity("/create-user", user, Object.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -54,7 +54,7 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserIsValid_userSavedToDatabase() {
         User user = createValidUser();
-        testRestTemplate.postForEntity("/users", user, Object.class);
+        testRestTemplate.postForEntity("/create-user", user, Object.class);
         assertThat(userRepository.count()).isEqualTo(1);
     }
 
@@ -62,7 +62,7 @@ public class UserControllerTest {
     public void postUser_whenUserIsValid_receiveSuccessMessage() {
         User user = createValidUser();
 
-        ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity("/users", user, GenericResponse.class);
+        ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity("/create-user", user, GenericResponse.class);
 
         assertThat(response.getBody().getMessage()).isNotNull();
     }
@@ -70,7 +70,7 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserIsValid_passwordIsHashedInDatabase() {
         User user = createValidUser();
-        testRestTemplate.postForEntity("/users", user, Object.class);
+        testRestTemplate.postForEntity("/create-user", user, Object.class);
         List<User> users = userRepository.findAll();
         User inDB = users.get(0);
         assertThat(inDB.getPassword()).isNotEqualTo(user.getPassword());
