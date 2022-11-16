@@ -1,7 +1,5 @@
 package com.ragbecca.ITVitaeManagement.entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.ragbecca.ITVitaeManagement.util.Views;
 import com.ragbecca.ITVitaeManagement.validation.UniqueUsername;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,7 +23,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Getter
     @Column(name = "id", nullable = false)
-    @JsonView(Views.Base.class)
     private Long id;
 
     @Getter
@@ -35,14 +32,12 @@ public class User implements UserDetails {
     @NotNull(message = "{manager.constraints.email.NotNull.message}")
     @Size(min = 5, max = 255, message = "{manager.constraints.email.Size.message}")
     @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$", message = "{manager.constraints.email.Pattern.message}")
-    @JsonView(Views.Base.class)
     private String username;
 
     @Getter
     @Setter
     @NotNull(message = "{manager.constraints.displayName.NotNull.message}")
     @Size(min = 4, max = 255, message = "{manager.constraints.displayName.Size.message}")
-    @JsonView(Views.Base.class)
     private String displayName;
 
     @Getter
@@ -54,8 +49,11 @@ public class User implements UserDetails {
 
     @Getter
     @Setter
-    @JsonView(Views.Base.class)
     private String role;
+
+    @Getter
+    @Setter
+    private boolean master;
 
     @Override
     @Transient

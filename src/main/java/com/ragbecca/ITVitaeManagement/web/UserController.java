@@ -1,11 +1,16 @@
 package com.ragbecca.ITVitaeManagement.web;
 
 import com.ragbecca.ITVitaeManagement.entity.User;
+import com.ragbecca.ITVitaeManagement.entity.vm.UserUpdateVM;
+import com.ragbecca.ITVitaeManagement.entity.vm.UserVM;
 import com.ragbecca.ITVitaeManagement.service.UserService;
 import com.ragbecca.ITVitaeManagement.util.ApiError;
 import com.ragbecca.ITVitaeManagement.util.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,10 +27,37 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/create-user")
-    GenericResponse createUser(@Valid @RequestBody User user) {
-        userService.save(user);
-        return new GenericResponse("User saved");
+    @PostMapping("/manager/managers/create")
+    GenericResponse createManager(@Valid @RequestBody User user) {
+        userService.saveManager(user);
+        return new GenericResponse("Manager saved");
+    }
+
+    @PostMapping("/manager/teachers/create")
+    GenericResponse createTeacher(@Valid @RequestBody User user) {
+        userService.saveTeacher(user);
+        return new GenericResponse("Teacher saved");
+    }
+
+    @GetMapping("/teachers/{id}")
+    void getLeraarByName(@PathVariable String id) {
+        //TODO
+    }
+
+    @GetMapping("/teachers")
+    Page<UserVM> getAllTeachers(Pageable page) {
+        return userService.getTeachers(page).map(UserVM::new);
+    }
+
+    @GetMapping("/users/{username}")
+    User getUserByName(@PathVariable String username) {
+        return userService.getByUsername(username);
+    }
+
+    @PutMapping("/users/{id:[0-9]+}")
+    @PreAuthorize("#id == principal.id")
+    User updateUser(@PathVariable long id, @Valid @RequestBody(required = false) UserUpdateVM userUpdate) {
+        return userService.update(id, userUpdate);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
