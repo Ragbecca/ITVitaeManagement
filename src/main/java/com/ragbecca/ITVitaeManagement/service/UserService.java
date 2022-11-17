@@ -5,8 +5,6 @@ import com.ragbecca.ITVitaeManagement.entity.vm.UserUpdateVM;
 import com.ragbecca.ITVitaeManagement.repository.UserRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +32,12 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public Page<User> getTeachers(Pageable pageable) {
-        return userRepository.findByRole("TEACHER", pageable);
+    public User[] getTeachers() {
+        return userRepository.findByRole("TEACHER");
     }
 
-    public Page<User> getManagers(Pageable pageable) {
-        return userRepository.findByRole("MANAGER", pageable);
+    public User[] getManagers() {
+        return userRepository.findByRole("MANAGER");
     }
 
     public User update(long id, UserUpdateVM userUpdate) {

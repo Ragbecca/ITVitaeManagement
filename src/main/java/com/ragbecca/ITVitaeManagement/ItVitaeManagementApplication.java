@@ -10,4 +10,5 @@ public class ItVitaeManagementApplication {
         SpringApplication.run(ItVitaeManagementApplication.class, args);
     }
 
+
 }
