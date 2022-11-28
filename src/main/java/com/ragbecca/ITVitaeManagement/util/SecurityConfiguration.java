@@ -5,7 +5,6 @@ import com.ragbecca.ITVitaeManagement.repository.UserRepository;
 import com.ragbecca.ITVitaeManagement.service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,10 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.httpBasic().authenticationEntryPoint(new BasicAuthenticationEntryPoint());
 
-        http
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/login").authenticated()
-                .antMatchers(HttpMethod.PUT, "/users/{id:[0-9]+}").authenticated()
-                .and().authorizeRequests().anyRequest().permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -36,6 +36,6 @@ public class Student {
     @Getter
     @Setter
     @ManyToOne
-    @JoinColumn(name = "group_id", referencedColumnName = "id", nullable = false)
-    private Group group;
+    @JoinColumn(name = "class_id", referencedColumnName = "id", nullable = false)
+    private Class inClass;
 }

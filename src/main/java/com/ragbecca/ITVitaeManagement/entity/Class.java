@@ -8,19 +8,23 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "groups")
-public class Group {
-
+@Table(name = "classes")
+public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
     @Column(name = "id", nullable = false)
+    @Getter
     private Long id;
 
     @Getter
     @Setter
     @NotNull(message = "{manager.constraints.displayName.NotNull.message}")
-    private String displayName;
+    private String name;
+
+    @Getter
+    @Setter
+    @NotNull
+    private String type;
 
     @Getter
     @Setter
@@ -29,22 +33,7 @@ public class Group {
 
     @Getter
     @Setter
-    private boolean monday;
-
-    @Getter
-    @Setter
-    private boolean tuesday;
-
-    @Getter
-    @Setter
-    private boolean wednesday;
-
-    @Getter
-    @Setter
-    private boolean thursday;
-
-    @Getter
-    @Setter
-    private boolean friday;
+    @ManyToMany
+    private List<Days> days;
 
 }
